@@ -1,0 +1,50 @@
+{
+  "name": "couchdb-force",
+  "version": "0.1.0",
+  "description": "Updates documents in CouchDB without having to fetch them",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint '{*.js,lib/**/*.js,test/**/*.js}' --ignore-pattern=test/coverage",
+    "test": "mocha --bail -t 15000",
+    "test-cov": "istanbul cover --dir test/coverage _mocha -- --bail -t 15000 && echo Coverage lies in test/coverage/lcov-report/index.html",
+    "test-travis": "istanbul cover _mocha --report lcovonly -- --bail -t 15000 && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "bugs": {
+    "url": "https://github.com/IndigoUnited/node-couchdb-force/issues/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IndigoUnited/node-couchdb-force.git"
+  },
+  "keywords": [
+    "couch",
+    "couchdb",
+    "insert",
+    "update",
+    "patch",
+    "force",
+    "bulk"
+  ],
+  "author": "IndigoUnited <hello@indigounited.com> (http://indigounited.com)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.foreachright": "^4.0.2",
+    "lodash.frompairs": "^4.0.1",
+    "nano": "^6.2.0",
+    "promise-retry": "^1.1.0"
+  },
+  "devDependencies": {
+    "@satazor/eslint-config": "^2.0.0",
+    "betray": "^1.2.0",
+    "bluebird": "^3.3.1",
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "eslint": "^2.2.0",
+    "istanbul": "^0.4.1",
+    "lodash": "^4.6.1",
+    "mocha": "^2.3.4"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
