@@ -1,6 +1,6 @@
 {
   "name": "couchdb-force",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Updates documents in CouchDB without having to fetch them",
   "main": "index.js",
   "scripts": {
