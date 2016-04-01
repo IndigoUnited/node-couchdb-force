@@ -45,7 +45,7 @@ couchdbForce.insert('http://localhost:5984/my-db', {
 .then((doc) => {
     console.log('Insertion successful', doc);
 }, (err) => {
-    // `err` be a standard `nano` error that might contain the well known
+    // `err` is a standard `nano` error that might contain the well known
     // `err.statusCode`, `err.error` and `err.reason` properties
     console.log('Insertion failed', err);
 });
@@ -75,7 +75,7 @@ couchdbForce.patch('http://localhost:5984/my-db', {
 .then((doc) => {
     console.log('Patch successful', doc);
 }, (err) => {
-    // `err` be a standard `nano` error that might contain the well known
+    // `err` is a standard `nano` error that might contain the well known
     // `err.statusCode`, `err.error` and `err.reason` properties
     console.log('Patch failed', err);
 });
