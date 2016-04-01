@@ -86,8 +86,8 @@ The `couchdbAddr` argument must be a connection string with protocol, host, port
 Available options:
 
 - `retries`: The number of retries or a [retry](https://www.npmjs.org/package/retry) options object, defaults to `{ retries: 5, minTimeout: 200 }`
-- `patcher`: A custom patch function (defaults to `(doc, patch) => Object.assign({}, doc, patch)`); note that you SHOULDN'T mutate `doc` or `patch` in this function.
-- `create`: Either to create the document in case it doesn't yet exists (defaults to `true`).
+- `patcher`: A custom patch function (defaults to `(doc, patch) => Object.assign({}, doc, patch)`); note that you shouldn't mutate `doc` or `patch` in this function.
+- `create`: Create the document in case it doesn't yet exists (defaults to `true`).
 - `doc`: If you already have the document, you may pass it to avoid having to fetch it in the first try (defaults to `null`)
 - `nano`: Custom options to be used when creating the [nano]((https://www.npmjs.com/package/nano)) instance, defaults to `null`.
 
@@ -103,7 +103,7 @@ const couchdbForce = require('couchdb-force');
 
 couchdbForce.bulkInsert('http://localhost:5984/my-db', [
     { _id: 'user-1', name: 'André Cruz' },
-    { _id: 'user-2', name: 'Marco Oliveira' }
+    { _id: 'user-2', name: 'Marco Oliveira' },
 ])
 .then((docs) => {
     console.log('Bulk insertion successful', docs);
@@ -112,7 +112,7 @@ couchdbForce.bulkInsert('http://localhost:5984/my-db', [
 
     // Because this is a multi operation, errors will be available in `err.errors`
     // which is an object with keys and respective errors
-    Object.keys(err.errors, (id) => {
+    Object.keys(err.errors).forEach((id) => {
         console.log(`Error inserting ${id}`, err.errors[id]);
     });
 });
@@ -138,15 +138,15 @@ const couchdbForce = require('couchdb-force');
 
 couchdbForce.bulkPatch('http://localhost:5984/my-db', [
     { _id: 'user-1', country: 'pt' },
-    { _id: 'user-2', country: 'pt' }
+    { _id: 'user-2', country: 'pt' },
 ])
 }, (err) => {
     console.log('Bulk patch failed', err);
 
     // Because this is a multi operation, errors will be available in `err.errors`
     // which is an object with keys and respective errors
-    Object.keys(err.errors, (id) => {
-        console.log(`Error inserting ${id}`, err.errors[id]);
+    Object.keys(err.errors).forEach((id) => {
+        console.log(`Error patching ${id}`, err.errors[id]);
     });
 });
 ```
@@ -156,8 +156,8 @@ The `couchdbAddr` argument must be a connection string with protocol, host, port
 Available options:
 
 - `retries`: The number of retries or a [retry](https://www.npmjs.org/package/retry) options object, defaults to `{ retries: 5, minTimeout: 200 }`
-- `patcher`: A custom patch function (defaults to `(doc, patch) => Object.assign({}, doc, patch)`); note that you SHOULDN'T mutate `doc` or `patch` in this function.
-- `create`: Either to create the document in case it doesn't yet exists (defaults to `true`).
+- `patcher`: A custom patch function (defaults to `(doc, patch) => Object.assign({}, doc, patch)`); note that you shouldn't mutate `doc` or `patch` in this function.
+- `create`: Create the document in case it doesn't yet exists (defaults to `true`).
 - `docs`: If you already have the documents, you may pass them to avoid having to fetch them in the first try (defaults to `[]`); the order must be the same as `patches`.
 - `nano`: Custom options to be used when creating the [nano]((https://www.npmjs.com/package/nano)) instance, defaults to `null`.
 
