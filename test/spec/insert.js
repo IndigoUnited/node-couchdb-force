@@ -104,5 +104,29 @@ module.exports = (couchdbAddr, couchdb) => {
                 expect(err.message).to.equal('foo');
             });
         });
+
+        it('should NOT fail if couchdb fails with `not_found` when retrieving the doc', () => {
+            let rev;
+
+            betrayed(couchdb, 'get', (key, callback) => {
+                return couchdb.destroyAsync(key, rev)
+                .then(() => callback(Object.assign(new Error('missing'), { error: 'not_found', reason: 'missing' })), callback);
+            });
+
+            return couchdb.insertAsync({ _id: 'insert-get-not-found' })
+            .then((result) => { rev = result.rev; })
+            .then(() => couchdbForce.insert(couchdb, { _id: 'insert-get-not-found' }));
+        });
+
+        it('should fail if couchdb fails when inserting the doc', () => {
+            betrayed(couchdb, 'insert', (key, callback) => callback(new Error('foo')));
+
+            return couchdbForce.insert(couchdb, { _id: 'insert-insert-error' })
+            .then(() => {
+                throw new Error('Expected to fail');
+            }, (err) => {
+                expect(err.message).to.equal('foo');
+            });
+        });
     });
 };

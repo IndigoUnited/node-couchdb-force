@@ -123,7 +123,7 @@ module.exports = (couchdbAddr, couchdb) => {
         });
 
         it('should use nano instance', () => {
-            return couchdbForce.insert(couchdb, { _id: 'patch-nano-instance', foo: 'bar' })
+            return couchdbForce.patch(couchdb, { _id: 'patch-nano-instance', foo: 'bar' })
             .then(() => {
                 return couchdb.getAsync('patch-nano-instance')
                 .then((doc) => expect(doc.foo).to.equal('bar'));
@@ -136,6 +136,17 @@ module.exports = (couchdbAddr, couchdb) => {
                 throw new Error('Expected to fail');
             }, (err) => {
                 expect(err.message).to.match(/no database is selected/i);
+            });
+        });
+
+        it('should fail if couchdb fails when patching the doc', () => {
+            betrayed(couchdb, 'insert', (key, callback) => callback(new Error('foo')));
+
+            return couchdbForce.patch(couchdb, { _id: 'patch-insert-error' })
+            .then(() => {
+                throw new Error('Expected to fail');
+            }, (err) => {
+                expect(err.message).to.equal('foo');
             });
         });
     });
