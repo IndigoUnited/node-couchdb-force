@@ -158,7 +158,7 @@ Available options:
 - `retries`: The number of retries or a [retry](https://www.npmjs.org/package/retry) options object, defaults to `{ retries: 5, minTimeout: 200 }`
 - `patcher`: A custom patch function (defaults to `(doc, patch) => Object.assign({}, doc, patch)`); note that you shouldn't mutate `doc` or `patch` in this function.
 - `create`: Create the document in case it doesn't yet exists (defaults to `true`).
-- `docs`: If you already have the documents, you may pass them to avoid having to fetch them in the first try (defaults to `[]`); the order must be the same as `patches`.
+- `docs`: If you already have the documents, you may pass them to avoid having to fetch them in the first try (defaults to `null`); the order must be the same as `patches`.
 - `nano`: Custom options to be used when creating the [nano]((https://www.npmjs.com/package/nano)) instance, defaults to `null`.
 
 
