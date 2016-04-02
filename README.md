@@ -140,6 +140,8 @@ couchdbForce.bulkPatch('http://localhost:5984/my-db', [
     { _id: 'user-1', country: 'pt' },
     { _id: 'user-2', country: 'pt' },
 ])
+.then((docs) => {
+    console.log('Bulk patch successful', docs);
 }, (err) => {
     console.log('Bulk patch failed', err);
 
