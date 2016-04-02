@@ -210,5 +210,16 @@ module.exports = (couchdbAddr, couchdb) => {
                 expect(docs.map((doc) => doc._id)).to.eql(['bulk-patch-input-order-1', 'bulk-patch-input-order-2']);
             });
         });
+
+        it('should not do any request to CouchDB on empty arrays', () => {
+            const betrayFetch = betrayed(couchdb, 'fetch');
+            const betrayBulk = betrayed(couchdb, 'bulk');
+
+            return couchdbForce.bulkPatch(couchdb, [])
+            .then(() => {
+                expect(betrayFetch.invoked).to.equal(0);
+                expect(betrayBulk.invoked).to.equal(0);
+            });
+        });
     });
 };

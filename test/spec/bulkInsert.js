@@ -152,5 +152,14 @@ module.exports = (couchdbAddr, couchdb) => {
                 expect(docs.map((doc) => doc._id)).to.eql(['bulk-insert-input-order-1', 'bulk-insert-input-order-2']);
             });
         });
+
+        it('should not do any request to CouchDB on empty arrays', () => {
+            const betrayBulk = betrayed(couchdb, 'bulk');
+
+            return couchdbForce.bulkInsert(couchdb, [])
+            .then(() => {
+                expect(betrayBulk.invoked).to.equal(0);
+            });
+        });
     });
 };
