@@ -13,7 +13,7 @@ module.exports = (couchdbAddr, couchdb) => {
         beforeEach(() => { betrayed = betray.record(); });
         afterEach(() => betrayed.restoreAll());
 
-        it('should force patch document', () => {
+        it('should force patch documents', () => {
             return Promise.resolve()
             // Test create docs
             .then(() => couchdbForce.bulkPatch(couchdbAddr, [
@@ -172,6 +172,27 @@ module.exports = (couchdbAddr, couchdb) => {
                 expect(err.message).to.match(/failed.+1/i);
                 expect(Object.keys(err.errors)).to.have.length(1);
                 expect(err.errors['bulk-patch-no-db'].message).to.match(/no database is selected/i);
+            });
+        });
+
+        it('should fail if couchdb fails when inserting the doc (non-conflict)', () => {
+            const betrayBulk = betrayed(couchdb, 'bulk', (key, callback) => callback(null, [
+                { id: 'bulk-patch-insert-error', error: 'foo', reason: 'bar' },
+            ]));
+
+            return couchdbForce.bulkPatch(couchdb, [{ _id: 'bulk-patch-insert-error' }])
+            .then(() => {
+                throw new Error('Expected to fail');
+            }, (err) => {
+                expect(betrayBulk.invoked).to.equal(1);
+                expect(err.message).to.match(/failed.+1/i);
+                expect(Object.keys(err.errors)).to.have.length(1);
+
+                const docError = err.errors['bulk-patch-insert-error'];
+
+                expect(docError.message).to.equal('bar');
+                expect(docError.error).to.equal('foo');
+                expect(docError.reason).to.equal('bar');
             });
         });
 

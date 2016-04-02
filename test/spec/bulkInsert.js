@@ -120,6 +120,27 @@ module.exports = (couchdbAddr, couchdb) => {
             });
         });
 
+        it('should fail if couchdb fails when inserting the doc (non-conflict)', () => {
+            const betrayBulk = betrayed(couchdb, 'bulk', (key, callback) => callback(null, [
+                { id: 'bulk-insert-insert-error', error: 'foo', reason: 'bar' },
+            ]));
+
+            return couchdbForce.bulkInsert(couchdb, [{ _id: 'bulk-insert-insert-error' }])
+            .then(() => {
+                throw new Error('Expected to fail');
+            }, (err) => {
+                expect(betrayBulk.invoked).to.equal(1);
+                expect(err.message).to.match(/failed.+1/i);
+                expect(Object.keys(err.errors)).to.have.length(1);
+
+                const docError = err.errors['bulk-insert-insert-error'];
+
+                expect(docError.message).to.equal('bar');
+                expect(docError.error).to.equal('foo');
+                expect(docError.reason).to.equal('bar');
+            });
+        });
+
         it('should maintain the input order', () => {
             return couchdb.insertAsync({ _id: 'bulk-insert-input-order-2' })
             .then(() => couchdbForce.bulkInsert(couchdbAddr, [
