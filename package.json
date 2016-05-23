@@ -42,7 +42,7 @@
     "eslint": "^2.2.0",
     "istanbul": "^0.4.1",
     "lodash": "^4.6.1",
-    "mocha": "^2.3.4"
+    "mocha": "^2.5.0"
   },
   "engines": {
     "node": ">=4.0.0"
