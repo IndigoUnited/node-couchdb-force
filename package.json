@@ -28,7 +28,7 @@
   "author": "IndigoUnited <hello@indigounited.com> (http://indigounited.com)",
   "license": "MIT",
   "dependencies": {
-    "lodash.foreachright": "^4.0.2",
+    "lodash.foreachright": "^4.4.0",
     "lodash.frompairs": "^4.0.1",
     "nano": "^6.2.0",
     "promise-retry": "^1.1.0"
