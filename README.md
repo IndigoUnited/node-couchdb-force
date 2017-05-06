@@ -11,7 +11,7 @@
 [coveralls-image]:https://img.shields.io/coveralls/IndigoUnited/node-couchdb-force/master.svg
 [david-dm-url]:https://david-dm.org/IndigoUnited/node-couchdb-force
 [david-dm-image]:https://img.shields.io/david/IndigoUnited/node-couchdb-force.svg
-[david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-couchdb-force#info=devDependencies
+[david-dm-dev-url]:https://david-dm.org/IndigoUnited/node-couchdb-force?type=dev
 [david-dm-dev-image]:https://img.shields.io/david/dev/IndigoUnited/node-couchdb-force.svg
 
 Update documents in CouchDB without having to fetch them.
